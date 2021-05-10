@@ -14,7 +14,7 @@ let id = 100;
 
 // default route
 app.get('/', (req, res) => {
-    res.send('API is UP')
+    res.send('API is UP v1.0.1')
 })
 
 // health route
