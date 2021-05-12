@@ -1,12 +1,14 @@
 const express = require("express");
-const auth = require("./helpers/Auth");
+const Auth = require("./helpers/Auth");
 const PORT = process.env.PORT || 3000;
 const mongoose = require("mongoose")
 require("dotenv").config();
 const cors = require("cors");
 const app = express();
 const User = require("./schema/User")
+const jwt = require("jsonwebtoken")
 app.use(express.json());
+const JWT_KEY = process.env.JWT_KEY
 
 app.use(cors());
 
@@ -26,9 +28,6 @@ mongoose.connect("mongodb://" + process.env.COSMOSDB_HOST + ":" + process.env.CO
         app.listen(PORT, () => {
             console.log(`App listening at http://localhost:${PORT}`);
         });
-
-
-
     })
     .catch((err) => console.error(err));
 
@@ -53,10 +52,14 @@ app.post("/register-student", (req, res) => {
     let user = new User(data)
 
     user.save().then(e => {
+
+        var token = jwt.sign({ id: e._id }, JWT_KEY);
+
         res.json({
             status: 200,
             message: "User added successfully",
-        });
+            token: token
+        })
 
     }).catch(e => {
         if (e.code === 11000)
@@ -83,28 +86,29 @@ app.post("/register-staff", (req, res) => {
 });
 
 // Get user data for Staff
-app.post("/get-user/student", (req, res) => {
-    let email = req.body?.email;
-    if (email) {
-        let f = false;
-        database.forEach((e) => {
-            if (e.email === email) {
-                res.json({
-                    status: 200,
-                    userObject: e,
-                });
-                f = true;
-            }
-        });
-        if (!f)
+app.get("/get-user/student", Auth, (req, res) => {
+
+    const token = req.headers.authorization.split(' ')[1];
+    const decodedToken = jwt.verify(token, process.env.JWT_KEY)
+    let id = decodedToken.id
+    if (id) {
+        User.findById(id).then(e => {
             res.json({
-                status: 404,
-                message: "User not found",
-            });
+                status: 200,
+                userData: e
+            })
+        })
+            .catch(err => {
+                res.json({
+                    status: 400,
+                    message: err.message,
+                });
+            })
+
     } else
         res.json({
             status: 400,
-            message: "Invalid email",
+            message: "Invalid id",
         });
 });
 
