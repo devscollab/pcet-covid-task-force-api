@@ -9,38 +9,27 @@ class Requests {
         return axios.get(this.route + "/health")
     }
 
-    registerStudent(data) {
-        return axios.post(this.route + "/register-student", data)
+    register(data) {
+        return axios.post(this.route + "/register", data)
     }
 
-    registerStaff(data) {
-        return axios.post(this.route + "/register-staff", data)
-    }
-
-    loginStudent(email, password) {
+    login(email, password) {
         let data = {
             email, password
         }
-        return axios.post(this.route + '/login-student', data)
-    }
-
-    loginStaff(email, password) {
-        let data = {
-            email, password
-        }
-        return axios.post(this.route + '/login-staff', data)
+        return axios.post(this.route + '/login', data)
     }
 
     getData(token) {
         let config = {
             method: 'get',
-            url: this.route + '/get-user/student',
+            url: this.route + '/get-user',
             headers: {
                 'Authorization': 'Bearer ' + token
             }
         };
-        return axios.get(this.route + '/get-user/student', config)
+        return axios.get(this.route + '/get-user', config)
     }
 }
 
-module.exports = new Requests()
+module.exports = new Requests("http://localhost:3000")

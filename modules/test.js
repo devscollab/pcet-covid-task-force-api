@@ -34,7 +34,7 @@ let d = {
     "canDonatePlasma": false
 }
 
-req.registerStudent(d).then(e => { console.log(e.data) })
+req.register(d).then(e => { console.log(e.data) })
 
 req.checkHealth().then(e => { console.log(e.data) })
 
