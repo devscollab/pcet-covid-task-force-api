@@ -3,8 +3,12 @@ const mongoose = require('mongoose');
 const UserSchema = new mongoose.Schema(
     {
         email: {
-            unique: true,
-            type: String
+            type: String,
+            unique: true
+        },
+        passHash: {
+            type: String,
+            required: true
         },
         firstName: {
             type: String,
@@ -115,6 +119,9 @@ const UserSchema = new mongoose.Schema(
         canDonatePlasma: {
             type: Boolean,
             required: true
+        },
+        optionals: {
+            type: mongoose.Schema.Types.Mixed
         }
 
     },

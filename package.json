@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/SuyashSonawane/pcet-covid-task-force-api#readme",
   "dependencies": {
+    "bcrypt": "^5.0.1",
     "cors": "^2.8.5",
     "dot-env": "0.0.1",
     "dotenv": "^9.0.1",
