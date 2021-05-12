@@ -48,7 +48,7 @@ app.get("/health", (req, res) => {
 });
 
 // Registration Route for Students
-app.post("/register-student", (req, res) => {
+app.post("/register", (req, res) => {
     let data = req.body;
     let passHash = bcrypt.hashSync(data.password, SALT)
     data['passHash'] = passHash
@@ -83,22 +83,21 @@ app.post("/register-student", (req, res) => {
 
 });
 
-// Register Route for Staff
-app.post("/register-staff", (req, res) => {
-    // console.log(req.body)
-    res.json({
-        status: 200,
-    });
-});
-
 // Login Student
-app.post("/login-student", async (req, res) => {
-    let pass = req.body.pass
+app.post("/login", async (req, res) => {
+    let pass = req.body.password
     let email = req.body.email
 
     if (email && pass) {
         try {
             let data = await User.findOne({ email })
+            if (!data) {
+                res.json({
+                    status: 404,
+                    message: "Email not registered"
+                })
+                return
+            }
             if (bcrypt.compareSync(pass, data?.passHash) && data) {
                 var token = jwt.sign({ id: data._id }, JWT_KEY);
                 res.json({
@@ -133,13 +132,16 @@ app.post("/login-student", async (req, res) => {
 })
 
 // Get user data for Staff
-app.get("/get-user/student", Auth, (req, res) => {
+app.get("/get-user", Auth, (req, res) => {
 
     const token = req.headers.authorization.split(' ')[1];
     const decodedToken = jwt.verify(token, process.env.JWT_KEY)
     let id = decodedToken.id
     if (id) {
         User.findById(id).then(e => {
+            delete e['passHash']
+            e['aadharNumber'] = e['aadharNumber'] % 10000
+
             res.json({
                 status: 200,
                 userData: e
@@ -159,13 +161,6 @@ app.get("/get-user/student", Auth, (req, res) => {
         });
 });
 
-// Get user data for Staff
-app.post("/get-user/staff", (req, res) => {
-    // console.log(req.body)
-    res.json({
-        status: 200,
-    });
-});
 
 // Get user data for Staff
 app.post("/add-request", (req, res) => {
