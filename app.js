@@ -132,7 +132,6 @@ app.post("/login-student", async (req, res) => {
 
 })
 
-
 // Get user data for Staff
 app.get("/get-user/student", Auth, (req, res) => {
 
