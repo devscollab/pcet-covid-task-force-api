@@ -1,7 +1,7 @@
 const axios = require('axios');
 
 class Requests {
-    constructor(route = "https://1cca7ff32346.ngrok.io") {
+    constructor(route = "https://pctfapi.azurewebsites.net/") {
         this.route = route
     }
 
