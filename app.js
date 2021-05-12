@@ -139,12 +139,19 @@ app.get("/get-user", Auth, (req, res) => {
     let id = decodedToken.id
     if (id) {
         User.findById(id).then(e => {
-            delete e['passHash']
-            e['aadharNumber'] = e['aadharNumber'] % 10000
+            let userData = {
+                email: e.email,
+                firstName: e.firstName,
+                lastName: e.lastName
+            }
+            // delete userData.passHash
+            // userData.aadharNumber = userData['aadharNumber'] % 10000
+
+            // console.log(e)
 
             res.json({
                 status: 200,
-                userData: e
+                userData
             })
         })
             .catch(err => {

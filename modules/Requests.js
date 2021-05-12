@@ -32,4 +32,4 @@ class Requests {
     }
 }
 
-module.exports = new Requests()
+module.exports = new Requests("http://localhost:3000")
