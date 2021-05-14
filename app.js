@@ -1,38 +1,46 @@
 const express = require("express");
-const Auth = require("./helpers/Auth");
+const Auth = require("./helpers/auth");
 const PORT = process.env.PORT || 3000;
-const mongoose = require("mongoose")
+const mongoose = require("mongoose");
 require("dotenv").config();
-const bcrypt = require("bcrypt")
+const bcrypt = require("bcrypt");
 const cors = require("cors");
 const app = express();
-const User = require("./schema/User")
-const jwt = require("jsonwebtoken")
+const User = require("./schema/User");
+const jwt = require("jsonwebtoken");
 app.use(express.json());
-const JWT_KEY = process.env.JWT_KEY
-const SALT = 10
+const JWT_KEY = process.env.JWT_KEY;
+const SALT = 10;
 
 app.use(cors());
 
-
-mongoose.connect("mongodb://" + process.env.COSMOSDB_HOST + ":" + process.env.COSMOSDB_PORT + "/" + process.env.COSMOSDB_DBNAME + "?ssl=true&replicaSet=globaldb", {
-    auth: {
-        user: process.env.COSMOSDB_USER,
-        password: process.env.COSMOSDB_PASSWORD
-    },
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-    retryWrites: false
-})
+mongoose
+    .connect(
+        "mongodb://" +
+            process.env.COSMOSDB_HOST +
+            ":" +
+            process.env.COSMOSDB_PORT +
+            "/" +
+            process.env.COSMOSDB_DBNAME +
+            "?ssl=true&replicaSet=globaldb",
+        {
+            auth: {
+                user: process.env.COSMOSDB_USER,
+                password: process.env.COSMOSDB_PASSWORD,
+            },
+            useNewUrlParser: true,
+            useUnifiedTopology: true,
+            retryWrites: false,
+        }
+    )
     .then(() => {
-        console.log('Connection to CosmosDB successful')
+        console.log("Connection to CosmosDB successful");
         // User.db.drop
         app.listen(PORT, () => {
             console.log(`App listening at http://localhost:${PORT}`);
         });
     })
     .catch((err) => console.error(err));
-
 
 // default route
 app.get("/", (req, res) => {
@@ -50,124 +58,117 @@ app.get("/health", (req, res) => {
 // Registration Route for Students
 app.post("/register", (req, res) => {
     let data = req.body;
-    let passHash = bcrypt.hashSync(data.password, SALT)
-    data['passHash'] = passHash
-    delete data['password']
+    let passHash = bcrypt.hashSync(data.password, SALT);
+    data["passHash"] = passHash;
+    delete data["password"];
 
-    let user = new User(data)
+    let user = new User(data);
 
-    user.save().then(e => {
-        console.log(e)
+    user.save()
+        .then((e) => {
+            console.log(e);
 
-        let token = jwt.sign({ id: e._id }, JWT_KEY);
+            let token = jwt.sign({ id: e._id }, JWT_KEY);
 
-        res.json({
-            status: 200,
-            message: "User added successfully",
-            token: token
+            res.json({
+                status: 200,
+                message: "User added successfully",
+                token: token,
+            });
         })
-
-    }).catch(e => {
-        if (e.code === 11000)
-            res.json({
-                status: 400,
-                message: "Duplicate Entry"
-            })
-        else
-            res.json({
-                status: 400,
-                message: e.message
-            })
-
-    })
-
+        .catch((e) => {
+            if (e.code === 11000)
+                res.json({
+                    status: 400,
+                    message: "Duplicate Entry",
+                });
+            else
+                res.json({
+                    status: 400,
+                    message: e.message,
+                });
+        });
 });
 
 // Login Student
 app.post("/login", async (req, res) => {
-    let pass = req.body.password
-    let email = req.body.email
+    let pass = req.body.password;
+    let email = req.body.email;
 
     if (email && pass) {
         try {
-            let data = await User.findOne({ email })
+            let data = await User.findOne({ email });
             if (!data) {
                 res.json({
                     status: 404,
-                    message: "Email not registered"
-                })
-                return
+                    message: "Email not registered",
+                });
+                return;
             }
             if (bcrypt.compareSync(pass, data?.passHash) && data) {
                 var token = jwt.sign({ id: data._id }, JWT_KEY);
                 res.json({
                     status: 200,
                     message: "User logged In successfully",
-                    token: token
-                })
-                return
-            }
-            else {
+                    token: token,
+                });
+                return;
+            } else {
                 res.json({
                     status: 400,
-                    message: "Incorrect username or password"
-                })
-                return
+                    message: "Incorrect username or password",
+                });
+                return;
             }
-        }
-        catch (e) {
+        } catch (e) {
             res.json({
                 status: 400,
-                message: e.message
-            })
-            return
+                message: e.message,
+            });
+            return;
         }
     }
     res.json({
         status: 500,
-        message: "Internal Server Error"
+        message: "Internal Server Error",
     });
-
-
-})
+});
 
 // Get user data for Staff
 app.get("/get-user", Auth, (req, res) => {
-
-    const token = req.headers.authorization.split(' ')[1];
-    const decodedToken = jwt.verify(token, process.env.JWT_KEY)
-    let id = decodedToken.id
+    const token = req.headers.authorization.split(" ")[1];
+    const decodedToken = jwt.verify(token, process.env.JWT_KEY);
+    let id = decodedToken.id;
     if (id) {
-        User.findById(id).then(e => {
-            let userData = {
-                email: e.email,
-                firstName: e.firstName,
-                lastName: e.lastName
-            }
-            // delete userData.passHash
-            // userData.aadharNumber = userData['aadharNumber'] % 10000
+        User.findById(id)
+            .then((e) => {
+                let userData = {
+                    email: e.email,
+                    firstName: e.firstName,
+                    lastName: e.lastName,
+                };
+                // delete userData.passHash
+                // userData.aadharNumber = userData['aadharNumber'] % 10000
 
-            // console.log(e)
+                // console.log(e)
 
-            res.json({
-                status: 200,
-                userData
+                res.json({
+                    status: 200,
+                    userData,
+                });
             })
-        })
-            .catch(err => {
+            .catch((err) => {
                 res.json({
                     status: 400,
                     message: err.message,
                 });
-            })
-
+            });
     } else
         res.json({
             status: 400,
             message: "Invalid id",
         });
 });
-
 
 // Get user data for Staff
 app.post("/add-request", (req, res) => {
@@ -176,5 +177,3 @@ app.post("/add-request", (req, res) => {
         status: 200,
     });
 });
-
-

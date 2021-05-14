@@ -1,135 +1,139 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 const UserSchema = new mongoose.Schema(
     {
         email: {
             type: String,
-            unique: true
+            unique: true,
         },
         passHash: {
             type: String,
-            required: true
+            required: true,
         },
         firstName: {
             type: String,
-            required: true
+            required: true,
         },
         lastName: {
             type: String,
-            required: true
+            required: true,
         },
         college: {
             type: String,
-            required: true
+            required: true,
         },
         course: {
             type: String,
-            required: true
+            required: true,
         },
         branch: {
             type: String,
-            required: true
+            required: true,
+        },
+        isStudent: {
+            type: Boolean,
+            required: true,
         },
         year: {
             type: String,
-            required: true
+            required: true,
         },
         div: {
             type: String,
         },
         rollNumber: {
             type: String,
-            required: true
         },
         age: {
             type: Number,
-            required: true
+            required: true,
         },
         dob: {
             type: Number,
-            required: true
+            required: true,
         },
         gender: {
             type: String,
-            required: true
+            required: true,
         },
         bloodGroup: {
             type: String,
-            required: true
+            required: true,
         },
         aadharNumber: {
             type: Number,
-            required: true
+            required: true,
         },
         contactNumber: {
             type: Number,
-            required: true
+            required: true,
         },
         emergencyContact: {
             type: Number,
-            required: true
+            required: true,
         },
         currentAddress: {
             type: String,
-            required: true
+            required: true,
         },
-        currentCity: {
+        city: {
             type: String,
-            required: true
+            required: true,
         },
         state: {
             type: String,
-            required: true
+            required: true,
         },
         pincode: {
             type: Number,
-            required: true
+            required: true,
         },
-        hadCovid: {
+        haCovid: {
             type: Boolean,
-            required: true
+            required: true,
         },
         startCovidDate: {
-            type: Number
+            type: Number,
         },
         endCovidDate: {
-            type: Number
+            type: Number,
         },
         isVaccinated: {
             type: Boolean,
-            required: true
+            required: true,
         },
         vaccineType: {
-            type: String
+            type: String,
         },
         dateOfDose1: {
-            type: Number
+            type: Number,
         },
         dateOfDose2: {
-            type: Number
+            type: Number,
         },
-        isRegisteredOnCowin: {
+        isRegisteredoncowin: {
             type: Boolean,
-            required: true
         },
-        canDonateBlood: {
+        caDonateblood: {
             type: Boolean,
-            required: true
+            required: true,
         },
-        canDonatePlasma: {
+        caDonateplasma: {
             type: Boolean,
-            required: true
+            required: true,
+        },
+        isRecovered: {
+            type: Boolean,
         },
         optionals: {
-            type: mongoose.Schema.Types.Mixed
-        }
-
+            type: mongoose.Schema.Types.Mixed,
+        },
     },
     {
-        timestamps: true
+        timestamps: true,
     }
-)
+);
 
-const User = mongoose.model('User', UserSchema);
+const User = mongoose.model("User", UserSchema);
 
 module.exports = User;
