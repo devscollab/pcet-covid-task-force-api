@@ -1,0 +1,74 @@
+### Health
+GET http://localhost:3000/health
+
+### Register Student
+POST http://localhost:3000/register
+Content-Type: application/json
+
+{
+    "email": "test@1553.com",
+    "firstName": "Test",
+    "password":"123456",
+    "lastName": "User",
+    "college": "PCET",
+    "course": "BE",
+    "branch": "COMP",
+    "year": 2021,
+    "div": "B",
+    "rollNumber": 256,
+    "isStudent":true,
+    "age": 18,
+    "dob": 187459,
+    "gender": "M",
+    "bloodGroup": "B+",
+    "aadharNumber": 74984898498,
+    "contactNumber": 879879879,
+    "emergencyContact": 549848498,
+    "currentAddress": "NA",
+    "city": "NASKS",
+    "state": "MH",
+    "pincode": 415875,
+    "haCovid": false,
+    "startCovidDate": 184847548,
+    "endCovidDate": 14541587,
+    "isVaccinated": false,
+    "vaccineType": "N",
+    "dateOfDose1": null,
+    "dateOfDose2": null,
+    "isRegisteredoncowin": false,
+    "caDonateblood": false,
+    "caDonateplasma": false,
+    "isRecovered":null
+}
+
+### Login User
+POST http://localhost:3000/login
+Content-Type: application/json
+
+{
+    "email":"test@1553.com",
+    "password":"123456"
+}
+
+### Get User Data
+GET http://localhost:3000/get-user
+Content-Type: :application/json
+Authorization: Token eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYwOWZhNmI2Y2JlMzljMmM3NDMwNzdjNyIsImlhdCI6MTYyMTA3NTYzOX0.MXtJeEqYDT0AXQIGZo6US1qZTORafKh-Pv3vQmzgtLQ
+
+### Add Request
+POST http://localhost:3000/add-request
+Content-Type: application/json
+Authorization: Token eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYwOWZhNmI2Y2JlMzljMmM3NDMwNzdjNyIsImlhdCI6MTYyMTA3NTYzOX0.MXtJeEqYDT0AXQIGZo6US1qZTORafKh-Pv3vQmzgtLQ
+
+{
+    "requestType":"testing",
+    "requestObject":{
+        "name":123,
+        "lalal":456
+    }
+}
+
+### Get User Requests
+GET http://localhost:3000/get-requests
+Content-Type: application/json
+Authorization: Token eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYwOWZhNmI2Y2JlMzljMmM3NDMwNzdjNyIsImlhdCI6MTYyMTA3NTYzOX0.MXtJeEqYDT0AXQIGZo6US1qZTORafKh-Pv3vQmzgtLQ
