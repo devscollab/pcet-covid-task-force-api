@@ -8,6 +8,7 @@ const cors = require("cors");
 const app = express();
 const User = require("./schema/User");
 const Request = require("./schema/Request");
+const Volunteer = require("./schema/Volunteer");
 const jwt = require("jsonwebtoken");
 app.use(express.json());
 const JWT_KEY = process.env.JWT_KEY;
@@ -47,8 +48,13 @@ mongoose
 app.get("/", (req, res) => {
     res.send(`
     
-    <h3>API is Up v1.0.5</h3>
-    <p>Supports registration, login, adding support requests</p>    
+    <h3>API is Up v1.0.6</h3>
+    <ul>
+        <li>Supports registration</li>
+        <li>Supports Login</li>
+        <li>Supports Adding Request</li>
+        <li>Supports Adding Volunteer</li>
+    </ul> 
     `);
 });
 
@@ -221,6 +227,61 @@ app.get("/get-requests", Auth, (req, res) => {
             res.json({
                 status: 200,
                 requests
+            })
+        })
+        .catch(e => {
+            res.json({
+                status: 400,
+                requests: e
+            })
+        })
+})
+
+// Add Volunteer
+app.post("/add-volunteer", Auth, (req, res) => {
+    let data = req.body;
+    const token = req.headers.authorization.split(' ')[1];
+    const decodedToken = jwt.verify(token, process.env.JWT_KEY);
+    data['userId'] = decodedToken.id
+
+    let volunteer = new Volunteer(data)
+    volunteer.save()
+        .then((e) => {
+            res.json({
+                status: 200,
+                message: "Volunteer added successfully",
+                volunteerId: e._id,
+            });
+            return
+        })
+        .catch((e) => {
+            res.json({
+                status: 400,
+                message: e.message,
+            });
+            return
+        });
+})
+
+// Get Users Requests
+app.get("/get-volunteers", Auth, (req, res) => {
+    const token = req.headers.authorization.split(' ')[1];
+    const decodedToken = jwt.verify(token, process.env.JWT_KEY);
+
+    Volunteer.find({ "userId": decodedToken.id })
+        .then(result => {
+            let volunteers = [];
+            result.forEach(el => {
+                volunteers.push({
+                    volunteerId: el._id,
+                    volunteerType: el.volunteerType,
+                    volunteerObject: el.volunteerObject,
+                    createdAt: el.createdAt
+                })
+            })
+            res.json({
+                status: 200,
+                volunteers
             })
         })
         .catch(e => {
