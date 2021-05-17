@@ -43,7 +43,7 @@
 const request = require("./Requests")
 
 let user = {
-    "email": "tesas98798797rthsct@t79.com",
+    "email": "tes7988987thsct@t79.com",
     "firstName": "Test",
     "password": "123456",
     "lastName": "User",
@@ -85,7 +85,17 @@ let requestObject = {
         "lalal": 456
     }
 }
+
+let volunteerObject = {
+    "volunteerType": "testing",
+    "volunteerObject": {
+        "name": 123,
+        "lalal": 456
+    }
+}
+
 let token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYwOWZiYzJlNjQzMzdkNTY2OGJiNmI2NSIsImlhdCI6MTYyMTA4MTEzNX0.uKgdjvpvbvwgVsEhm_3YCjdyCgMDTvsFqCTOL-vwbYc";
+
 async function test() {
 
     console.log("\n\n----Testing Health------\n")
@@ -197,6 +207,44 @@ async function test() {
     catch (e) {
         console.log("Error Code =>" + e.code)
         console.log("\nIssue in Get User Request 🔴")
+        return
+    }
+
+    console.log("\n\n----Testing Add Volunteer -----\n")
+    try {
+        let response = await request.addVolunteer(token, volunteerObject)
+        console.log(response.data)
+        if (response.data.status === 200) {
+            console.log("\nAdd Volunteer  Working Fine 🟢")
+        }
+        else {
+            console.log("\nIssue in Add Volunteer 🔴")
+            return
+
+        }
+    }
+    catch (e) {
+        console.log("Error Code =>" + e.code)
+        console.log("\nIssue in Add Volunteer 🔴")
+        return
+    }
+
+    console.log("\n\n----Testing Get User Volunteers -----\n")
+    try {
+        let response = await request.getVolunteers(token)
+        console.log(response.data)
+        if (response.data.status === 200) {
+            console.log("\nGet User Volunteers Working Fine 🟢")
+        }
+        else {
+            console.log("\nIssue in Get User Volunteers 🔴")
+            return
+
+        }
+    }
+    catch (e) {
+        console.log("Error Code =>" + e.code)
+        console.log("\nIssue in Get User Volunteers 🔴")
         return
     }
 

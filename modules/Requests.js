@@ -53,6 +53,29 @@ class Requests {
         };
         return axios.get(this.route + "/get-requests", config);
     }
+
+
+    addVolunteer(token, volunteerObject) {
+        let config = {
+            method: "post",
+            url: this.route + "/add-volunteer",
+            headers: {
+                Authorization: "Token " + token,
+            },
+        };
+        return axios.post(this.route + "/add-volunteer", volunteerObject, config);
+    }
+
+    getVolunteers(token) {
+        let config = {
+            method: "get",
+            url: this.route + "/get-volunteers",
+            headers: {
+                Authorization: "Bearer " + token,
+            },
+        };
+        return axios.get(this.route + "/get-volunteers", config);
+    }
 }
 
 // export default new Requests("http://localhost:3000");

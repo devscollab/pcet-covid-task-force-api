@@ -72,3 +72,21 @@ Authorization: Token eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYwOWZhNmI2Y2
 GET http://localhost:3000/get-requests
 Content-Type: application/json
 Authorization: Token eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYwOWZhNmI2Y2JlMzljMmM3NDMwNzdjNyIsImlhdCI6MTYyMTA3NTYzOX0.MXtJeEqYDT0AXQIGZo6US1qZTORafKh-Pv3vQmzgtLQ
+
+### Add Volunteer
+POST http://localhost:3000/add-volunteer
+Content-Type: application/json
+Authorization: Token eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYwOWZhNmI2Y2JlMzljMmM3NDMwNzdjNyIsImlhdCI6MTYyMTA3NTYzOX0.MXtJeEqYDT0AXQIGZo6US1qZTORafKh-Pv3vQmzgtLQ
+
+{
+    "volunteerType":"testing",
+    "volunteerObject":{
+        "name":123,
+        "lalal":456
+    }
+}
+
+### Get User Volunteer
+GET http://localhost:3000/get-volunteers
+Content-Type: application/json
+Authorization: Token eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYwOWZhNmI2Y2JlMzljMmM3NDMwNzdjNyIsImlhdCI6MTYyMTA3NTYzOX0.MXtJeEqYDT0AXQIGZo6US1qZTORafKh-Pv3vQmzgtLQ
