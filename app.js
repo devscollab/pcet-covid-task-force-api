@@ -48,10 +48,11 @@ mongoose
 app.get("/", (req, res) => {
     res.send(`
     
-    <h3>API is Up v1.0.6</h3>
+    <h3>API is Up v1.0.7</h3>
     <ul>
         <li>Supports registration</li>
         <li>Supports Login</li>
+        <li>Supports Fetching User data</li>
         <li>Supports Adding Request</li>
         <li>Supports Adding Volunteer</li>
     </ul> 
@@ -155,14 +156,14 @@ app.get("/get-user", Auth, (req, res) => {
         User.findById(id)
             .then((e) => {
                 let userData = {
-                    email: e.email,
-                    firstName: e.firstName,
-                    lastName: e.lastName,
+                    ...e._doc
                 };
-                // delete userData.passHash
-                // userData.aadharNumber = userData['aadharNumber'] % 10000
+                delete userData.passHash
+                delete userData._id
+                delete userData.__v
+                userData.aadharNumber = userData['aadharNumber'] % 10000
 
-                // console.log(e)
+                console.log(userData)
 
                 res.json({
                     status: 200,
