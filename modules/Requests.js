@@ -32,6 +32,17 @@ class Requests {
         return axios.get(this.route + "/get-user", config);
     }
 
+    updateData(token, data) {
+        let config = {
+            method: "post",
+            url: this.route + "/update-user",
+            headers: {
+                Authorization: "Token " + token,
+            },
+        };
+        return axios.post(this.route + "/update-user", data, config);
+    }
+
     addRequest(token, requestObject) {
         let config = {
             method: "post",

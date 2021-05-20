@@ -250,4 +250,8 @@ async function test() {
 
 }
 
-test()
+// test()
+request.getData(token)
+    .then(console.log).catch(console.log)
+// request.updateData(token, { firstName: "123" })
+//     .then(console.log).catch(console.log)

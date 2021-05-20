@@ -52,8 +52,19 @@ Content-Type: application/json
 
 ### Get User Data
 GET http://localhost:3000/get-user
-Content-Type: :application/json
+Content-Type: application/json
 Authorization: Token eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYwOWZhNmI2Y2JlMzljMmM3NDMwNzdjNyIsImlhdCI6MTYyMTA3NTYzOX0.MXtJeEqYDT0AXQIGZo6US1qZTORafKh-Pv3vQmzgtLQ
+
+
+### Update User Data
+POST http://localhost:3000/update-user
+Content-Type: application/json
+Authorization: Token eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYwOWZhNmI2Y2JlMzljMmM3NDMwNzdjNyIsImlhdCI6MTYyMTA3NTYzOX0.MXtJeEqYDT0AXQIGZo6US1qZTORafKh-Pv3vQmzgtLQ
+
+{
+    "firstName":789
+}
+
 
 ### Add Request
 POST http://localhost:3000/add-request
