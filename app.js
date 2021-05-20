@@ -15,7 +15,7 @@ const JWT_KEY = process.env.JWT_KEY;
 const SALT = 10;
 
 app.use(cors());
-
+mongoose.set('useFindAndModify', false);
 mongoose
     .connect(
         "mongodb://" +
@@ -48,11 +48,12 @@ mongoose
 app.get("/", (req, res) => {
     res.send(`
     
-    <h3>API is Up v1.0.7</h3>
+    <h3>API is Up v1.0.8</h3>
     <ul>
         <li>Supports registration</li>
         <li>Supports Login</li>
         <li>Supports Fetching User data</li>
+        <li>Supports Updating User data</li>
         <li>Supports Adding Request</li>
         <li>Supports Adding Volunteer</li>
     </ul> 
@@ -67,7 +68,7 @@ app.get("/health", (req, res) => {
     });
 });
 
-// Registration Route for Students
+// Registration Route for User
 app.post("/register", (req, res) => {
     let data = req.body;
     // console.log(data)
@@ -101,7 +102,7 @@ app.post("/register", (req, res) => {
         });
 });
 
-// Login Student
+// Login User
 app.post("/login", async (req, res) => {
     let pass = req.body.password;
     let email = req.body.email;
@@ -147,6 +148,35 @@ app.post("/login", async (req, res) => {
         });
 });
 
+// Update User
+app.post("/update-user", Auth, (req, res) => {
+    // console.log(req.body)
+    const token = req.headers.authorization.split(" ")[1];
+    const decodedToken = jwt.verify(token, process.env.JWT_KEY);
+    let id = decodedToken.id;
+    if (id) {
+        User.findByIdAndUpdate(id, req.body)
+            .then(e => {
+                res.json({
+                    status: 200,
+                    message: "User updated successfully"
+                })
+            })
+            .catch(err => {
+                console.log(err)
+                res.json({
+                    status: 400,
+                    message: err.message
+                })
+            })
+    }
+    else
+        res.json({
+            status: 400,
+            message: "Invalid id"
+        })
+})
+
 // Get user data for Staff
 app.get("/get-user", Auth, (req, res) => {
     const token = req.headers.authorization.split(" ")[1];
@@ -158,12 +188,12 @@ app.get("/get-user", Auth, (req, res) => {
                 let userData = {
                     ...e._doc
                 };
+                // console.log(userData)
                 delete userData.passHash
                 delete userData._id
                 delete userData.__v
                 userData.aadharNumber = userData['aadharNumber'] % 10000
 
-                console.log(userData)
 
                 res.json({
                     status: 200,
