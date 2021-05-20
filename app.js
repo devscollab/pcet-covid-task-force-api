@@ -48,11 +48,12 @@ mongoose
 app.get("/", (req, res) => {
     res.send(`
     
-    <h3>API is Up v1.0.7</h3>
+    <h3>API is Up v1.0.8</h3>
     <ul>
         <li>Supports registration</li>
         <li>Supports Login</li>
         <li>Supports Fetching User data</li>
+        <li>Supports Updating User data</li>
         <li>Supports Adding Request</li>
         <li>Supports Adding Volunteer</li>
     </ul> 
