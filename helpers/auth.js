@@ -5,7 +5,8 @@ module.exports = (req, res, next) => {
         const decodedToken = jwt.verify(token, process.env.JWT_KEY);
         next()
     } catch {
-        res.status(401).json({
+        res.json({
+            status: 401,
             message: 'Invalid request!'
         });
     }

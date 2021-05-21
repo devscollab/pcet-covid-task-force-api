@@ -46,7 +46,7 @@ POST http://localhost:3000/login
 Content-Type: application/json
 
 {
-    "email":"test@1553.com",
+    "email":"testfaculty@pctf.com",
     "password":"123456"
 }
 
@@ -54,6 +54,25 @@ Content-Type: application/json
 GET http://localhost:3000/get-user
 Content-Type: application/json
 Authorization: Token eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYwOWZhNmI2Y2JlMzljMmM3NDMwNzdjNyIsImlhdCI6MTYyMTA3NTYzOX0.MXtJeEqYDT0AXQIGZo6US1qZTORafKh-Pv3vQmzgtLQ
+
+### Reset Password p-1
+POST http://localhost:3000/reset
+Content-Type: application/json
+
+{
+    "email":"testfaculty@pctf.com",
+    "aadharNumber":111122223333
+}
+
+
+### Reset Password P-2
+POST http://localhost:3000/generate-new
+Content-Type: application/json
+
+{
+    "hash":"$2b$10$BOihAqKGBRxXFjEqpPL4lO8gwa8QJt7hXTTl.PTpyKdpU9Nf9gAga",
+    "newPassword":"123456"
+}
 
 
 ### Update User Data
