@@ -70,7 +70,25 @@ app.get("/", (req, res) => {
         <li>Supports Updating User data</li>
         <li>Supports Adding Request</li>
         <li>Supports Adding Volunteer</li>
-    </ul> 
+    </ul>
+    <h3>API is Up v1.0.8</h3>
+    <ul>
+        <li>Supports registration</li>
+        <li>Supports Login</li>
+        <li>Supports Fetching User data</li>
+        <li>Supports Updating User data</li>
+        <li>Supports Adding Request</li>
+        <li>Supports Adding Volunteer</li>
+    </ul>
+    <h3>API is Up v1.0.6</h3>
+    <ul>
+        <li>Supports registration</li>
+        <li>Supports Login</li>
+        <li>Supports Adding Request</li>
+        <li>Supports Adding Volunteer</li>
+    </ul>
+      <h3>API is Up v1.0.5</h3>
+    <p>Supports registration, login, adding support requests</p>
     `);
 });
 

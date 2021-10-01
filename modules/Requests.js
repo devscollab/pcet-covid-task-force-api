@@ -106,4 +106,4 @@ class Requests {
 }
 
 // export default new Requests("http://localhost:3000");
-module.exports = new Requests("http://localhost:3000")
+module.exports = new Requests("https://pctfapi.azurewebsites.net")
